@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Reflection;
 
 namespace SqlMapper.Framework.MapTypes
 {
@@ -16,8 +18,6 @@ namespace SqlMapper.Framework.MapTypes
             
             return _params;
         }
-
-
 
     }
 

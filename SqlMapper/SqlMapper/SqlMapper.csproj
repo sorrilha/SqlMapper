@@ -67,12 +67,14 @@
     <Compile Include="Framework\App.cs" />
     <Compile Include="Framework\CustomAttributes\Pk.cs" />
     <Compile Include="Framework\CustomAttributes\Table.cs" />
+    <Compile Include="Framework\ISqlEnumerable.cs" />
     <Compile Include="Framework\Mapper.cs" />
     <Compile Include="Framework\MapTypes\MapWithFields.cs" />
     <Compile Include="Framework\MapTypes\MapWithProperrties.cs" />
     <Compile Include="Framework\MapTypes\TypeMapers.cs" />
     <Compile Include="Framework\Builder.cs" />
     <Compile Include="Framework\IDataMapper.cs" />
+    <Compile Include="Framework\SqlEnumerable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Framework\SQLConnectionMan\ConnectionManager.cs" />
     <Compile Include="Framework\SQLConnectionMan\PersistentConnection.cs" />

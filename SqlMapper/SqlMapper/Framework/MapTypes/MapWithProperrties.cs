@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Reflection;
 
 
 namespace SqlMapper.Framework.MapTypes
@@ -12,5 +12,6 @@ namespace SqlMapper.Framework.MapTypes
             Type type = typeof (T);
             _params = type.GetProperties();
         }
+
     }
 }

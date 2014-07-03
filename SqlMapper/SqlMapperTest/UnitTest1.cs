@@ -8,7 +8,7 @@ using SqlMapper.Framework;
 using SqlMapper.Framework.MapTypes;
 using SqlMapper.Framework.SQLConnectionMan;
 using SqlMapperTest.EDs;
-
+using SqlMapperTest.Framework;
 
 
 namespace SqlMapperTest
@@ -41,10 +41,10 @@ namespace SqlMapperTest
         public void CustomersGetAll()
         {
             int result=0;
-            IEnumerable<Customer> custs = custMapper.GetAll();
+            ISqlEnumerable<Customer> custs = custMapper.GetAll().Where("CustomerID = SERRA").Where("CompanyName = Insert test kjd");
             connecttion = new SqlConnection(_conStr);
             connecttion.Open();
-            command = new SqlCommand("SELECT * FROM Customers");
+            command = new SqlCommand("SELECT * FROM Customers WHERE CustomerID = 'SERRA' AND CompanyName = 'Insert test kjd' ");
             command.Connection = connecttion;
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
