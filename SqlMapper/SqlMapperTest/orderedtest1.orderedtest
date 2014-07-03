@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<OrderedTest name="OrderedTest1" storage="\\psf\dropbox\isel\ave1314ver\trabalhofinal\sqlmapper\sqlmappertest\orderedtest1.orderedtest" id="387840b3-40aa-4f0a-9f2b-fb2c42afdc40" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestLinks>
+    <TestLink id="c50b41c5-515f-d59d-306c-9fca3c5325f6" name="AssertDataMapper" storage="bin\debug\sqlmappertest.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="b6135418-8374-4daa-c858-ce5df810fcd3" name="CustomersGetAll" storage="bin\debug\sqlmappertest.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="095f1a52-0fe4-359e-dc56-91147fd0856f" name="CustomersInsert" storage="bin\debug\sqlmappertest.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="61186aae-801c-d7de-9686-3c7e8cf99236" name="CustomersDelete" storage="bin\debug\sqlmappertest.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="33f510e2-04ba-103b-883c-45ea44901133" name="CustomersUpdate" storage="bin\debug\sqlmappertest.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  </TestLinks>
+</OrderedTest>

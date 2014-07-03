@@ -1,0 +1,17 @@
+Y:\Documents\ISEL\AVE\TrabalhoFinal\SqlMapper\SqlMapperTest\obj\Debug\SqlMapperTest.csprojResolveAssemblyReference.cache
+Y:\Documents\ISEL\AVE\TrabalhoFinal\SqlMapper\SqlMapperTest\bin\Debug\SqlMapperTest.dll.config
+Y:\Documents\ISEL\AVE\TrabalhoFinal\SqlMapper\SqlMapperTest\bin\Debug\SqlMapperTest.dll
+Y:\Documents\ISEL\AVE\TrabalhoFinal\SqlMapper\SqlMapperTest\bin\Debug\SqlMapperTest.pdb
+Y:\Documents\ISEL\AVE\TrabalhoFinal\SqlMapper\SqlMapperTest\bin\Debug\SqlMapper.exe
+Y:\Documents\ISEL\AVE\TrabalhoFinal\SqlMapper\SqlMapperTest\bin\Debug\SqlMapper.pdb
+Y:\Documents\ISEL\AVE\TrabalhoFinal\SqlMapper\SqlMapperTest\obj\Debug\SqlMapperTest.dll
+Y:\Documents\ISEL\AVE\TrabalhoFinal\SqlMapper\SqlMapperTest\obj\Debug\SqlMapperTest.pdb
+\\psf\Dropbox\ISEL\AVE1314Ver\TrabalhoFinal\SqlMapper\SqlMapperTest\obj\Debug\SqlMapperTest.csprojResolveAssemblyReference.cache
+\\psf\Dropbox\ISEL\AVE1314Ver\TrabalhoFinal\SqlMapper\SqlMapperTest\obj\Debug\SqlMapperTest.dll
+\\psf\Dropbox\ISEL\AVE1314Ver\TrabalhoFinal\SqlMapper\SqlMapperTest\bin\Debug\SqlMapperTest.dll.config
+\\psf\Dropbox\ISEL\AVE1314Ver\TrabalhoFinal\SqlMapper\SqlMapperTest\bin\Debug\SqlMapperTest.dll
+\\psf\Dropbox\ISEL\AVE1314Ver\TrabalhoFinal\SqlMapper\SqlMapperTest\bin\Debug\SqlMapperTest.pdb
+\\psf\Dropbox\ISEL\AVE1314Ver\TrabalhoFinal\SqlMapper\SqlMapperTest\bin\Debug\SqlMapper.exe
+\\psf\Dropbox\ISEL\AVE1314Ver\TrabalhoFinal\SqlMapper\SqlMapperTest\bin\Debug\SqlMapper.pdb
+\\psf\Dropbox\ISEL\AVE1314Ver\TrabalhoFinal\SqlMapper\SqlMapperTest\obj\Debug\SqlMapperTest.pdb
+\\psf\Dropbox\ISEL\AVE1314Ver\TrabalhoFinal\SqlMapper\SqlMapperTest\bin\Debug\OrderedTest1.orderedtest
