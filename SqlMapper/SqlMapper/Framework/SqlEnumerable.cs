@@ -2,9 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SqlMapper.Framework.SQLConnectionMan;
 
 namespace SqlMapperTest.Framework
@@ -26,24 +23,9 @@ namespace SqlMapperTest.Framework
 
         public ISqlEnumerable<T> Where(string clause)
         {
-           /* _clauses.Add(clause);
-            
-            foreach(String s in _clauses)
-            {
-                if(s.Equals(_clauses.First()) && _clauses.Count==1)
-                    _query += " WHERE " + s;
-                else
-                {
-                    _query += " AND " + s;
-                }
-            }
-            
-            _command.CommandText = _query;
-           
-            return this;*/
-
-            bool wh = _command.CommandText.Contains("WHERE");
-            if (wh) _command.CommandText = _command.CommandText + " AND " + clause;
+     
+            bool whereIsPresent = _command.CommandText.Contains("WHERE");
+            if (whereIsPresent) _command.CommandText = _command.CommandText + " AND " + clause;
             else _command.CommandText += " WHERE " + clause; 
                 return this;
 
@@ -66,6 +48,7 @@ namespace SqlMapperTest.Framework
                         if (_reader.IsDBNull(columnOrder))
                             value = null;
                         instance.GetType().GetProperty(column).SetValue(instance, value);
+                       
                     }
                     yield return (T)instance;
                 }
@@ -76,5 +59,6 @@ namespace SqlMapperTest.Framework
         {
             return GetEnumerator();
         }
+
     }
 }

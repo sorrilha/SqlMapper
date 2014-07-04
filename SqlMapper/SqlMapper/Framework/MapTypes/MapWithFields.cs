@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace SqlMapper.Framework.MapTypes
 {
-    class MapWithFields<T> : TypeMapers<T>
+    public class MapWithFields<T> : TypeMapers<T>
     {
         public MapWithFields()
         {

@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
 using SqlMapper.Framework.CustomAttributes;
-using SqlMapper.Framework.MapTypes;
 using SqlMapper.Framework.SQLConnectionMan;
-using SqlMapper.SQLConnection;
 using SqlMapperTest.Framework;
+using SqlMapperTest.Framework.CustomAttributes;
 
 
 namespace SqlMapper.Framework
@@ -26,33 +20,48 @@ namespace SqlMapper.Framework
         private object _instance;
         protected SqlDataReader _reader;
         protected int _affectedRows;
+        private Dictionary<string, string> _foreignKeyMap; 
 
 
-        public Mapper(ConnectionManager conMan,SqlCommand command, object[] mapOfObjects,  string tableName, string pkName)
+        public Mapper(ConnectionManager conMan,SqlCommand command, object[] mapOfObjects,  string tableName, string pkName )
         {
             _conMan = conMan;
             _command = command;
             _mapOfObjects = mapOfObjects;
             _tableName = tableName;
             _pkName = pkName;
+           
         }
 
         public ISqlEnumerable<T> GetAll()
         {
             GetAll_query();
-            return new SqlEnumerable<T>(_conMan, _command, _mapOfObjects);
-           
+            return new SqlEnumerable<T>(_conMan, _command, _mapOfObjects);     
+        }
+
+        public void Update(object val)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(object val)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Insert(object val)
+        {
+            throw new NotImplementedException();
         }
 
         public void GetAll_query()
         {
-
             _command.CommandText = "SELECT * FROM " + _tableName;
-
         }
 
         public void Update(T val)
         {
+
             Update_query(val);
              _conMan.ExecuteNonQuery(_command);
         }
@@ -67,9 +76,11 @@ namespace SqlMapper.Framework
                 if (!_pkName.Equals(propName))
                 {
                     aux += propName + " = @" + propName + ", ";
+                   
                     object value = GetValue(val, propName);
                     if (value == null)
                         value = DBNull.Value;
+                        
                     _command.Parameters.AddWithValue("@" + propName, value);
                 }
             }
@@ -87,7 +98,7 @@ namespace SqlMapper.Framework
         }
 
         public  void Delete_query(T val)
-        {
+        {   
             var key = GetValue(val, _pkName);
             _command.Parameters.AddWithValue("@" + _pkName, key);
             _command.CommandText = "DELETE FROM " + _tableName + "  WHERE " + _pkName + " = @" + _pkName;
@@ -112,6 +123,7 @@ namespace SqlMapper.Framework
                 Object value = GetValue(val, propName);
                 if (value == null)
                     value = DBNull.Value;
+                
                 _command.Parameters.AddWithValue("@" + propName, value);
             }
             aux = aux.Remove(aux.Length - 2);
@@ -119,12 +131,28 @@ namespace SqlMapper.Framework
             _command.CommandText = "INSERT INTO " + _tableName + " ( " + aux + " ) Values (" + parameters + " )";
         }
 
-        private Object GetValue(T val, string propName)
+        private Object GetValue(object val, string propName)
         {
-            Object o = val.GetType().GetProperty(propName).GetValue(val);
-            //if (o != null)
-                return o;
-            //return val.GetType().GetField(propName).GetValue(val);
+
+            Object value = null;
+            MemberInfo[] myMember = val.GetType().GetMember(propName);
+            if (myMember.Length < 1) return null;
+
+            switch (myMember[0].MemberType)
+            {
+                case MemberTypes.Field:
+                    value = ((FieldInfo)myMember[0]).GetValue(val);
+                    break;
+                case MemberTypes.Property:
+                    value = ((PropertyInfo)myMember[0]).GetValue(val, null);
+                    break;
+            }
+            return value;
+        }
+
+        SqlEnumerable IDataMapper.GetAll()
+        {
+            throw new NotImplementedException();
         }
     }
 }

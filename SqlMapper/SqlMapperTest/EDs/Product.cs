@@ -1,5 +1,6 @@
 ﻿using System;
 using SqlMapper.Framework.CustomAttributes;
+using SqlMapperTest.Framework.CustomAttributes;
 
 
 namespace SqlMapperTest.EDs
@@ -15,6 +16,10 @@ namespace SqlMapperTest.EDs
         public decimal ? UnitPrice { get; set; }
         public short ? UnitsInStock { get; set; }
         public short ? UnitsOnOrder { get; set; }
+        [Fk("SupplierID", "Suppliers", typeof(Supplier))] 
+        public Supplier supplier;
+        [Fk("CategoryID", "Categories", typeof(Category))] 
+        public Category categoy;
        
         public override string ToString()
         {

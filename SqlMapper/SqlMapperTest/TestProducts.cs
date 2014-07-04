@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SqlMapper.Framework;
 using SqlMapper.Framework.MapTypes;
@@ -10,15 +8,14 @@ using SqlMapper.Framework.SQLConnectionMan;
 using SqlMapperTest.EDs;
 using SqlMapperTest.Framework;
 
-
 namespace SqlMapperTest
 {
     [TestClass]
-    public class UnitTest1
+    public class TestProducts
     {
         private static readonly String _conStr = ConfigurationManager.ConnectionStrings[Environment.MachineName].ConnectionString;
-        private IDataMapper<Customer> custMapper;
-        private TypeMapers<Customer> mapType;
+        private IDataMapper<Product> prodMapper;
+        private TypeMapers<Product> mapType;
         private ConnectionManager connMan;
         private int affectedRows;
         private SqlDataReader reader;
@@ -28,62 +25,62 @@ namespace SqlMapperTest
         [TestMethod]
         public void AssertDataMapper()
         {
-            mapType = new MapWithProperties<Customer>();
+            mapType = new MapWithProperties<Product>();
             connMan = new PersistentConnection(new SqlConnection());
             Object[] mapOfObjects = mapType.getParams();
             Builder b = new Builder(connMan, mapOfObjects);
-            custMapper = b.Build<Customer>();
-            Assert.IsNotNull(custMapper);
-            //Assert.IsInstanceOfType(custMapper, IDataMapper<Customer>());
+            prodMapper = b.Build<Product>();
+            Assert.IsNotNull(prodMapper);
         }
 
         [TestMethod]
         public void CustomersGetAll()
         {
-            int result=0;
-            ISqlEnumerable<Customer> custs = custMapper.GetAll().Where("CustomerID = 'SERRA'").Where("CompanyName = 'Insert test kjd'");
+            int expected = 0;
+            ISqlEnumerable<Product> prods = prodMapper.GetAll();//.Where("CustomerID = 'SERRA'").Where("CompanyName = 'Insert test kjd'");
             connecttion = new SqlConnection(_conStr);
             connecttion.Open();
-            command = new SqlCommand("SELECT * FROM Customers WHERE CustomerID = 'SERRA' AND CompanyName = 'Insert test kjd' ");
+            command = new SqlCommand("SELECT * FROM Products");
             command.Connection = connecttion;
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
-                result++;
+                expected++;
             connecttion.Close();
             connecttion.Dispose();
             command.Dispose();
-            int real = custs.Count();
-            Assert.IsTrue(real == result);
+            //int real = prods.Count();
+            //Assert.IsTrue(real == expected);
+            
         }
 
         [TestMethod]
         public void CustomersUpdate()
         {
-            Customer cust = new Customer();
-            cust.CustomerID = "ALFKI";
-            cust.CompanyName = "Testing stuff";
-            custMapper.Update(cust);
-            int res = connMan.GetAffectedRows();
-            Assert.IsTrue(res == 1);
+            Product cust = new Product();
+            cust.ProductID = 1;
+            cust.ProductName = "Testing stuff";
+            prodMapper.Update(cust);
+            int real = connMan.GetAffectedRows();
+            Assert.IsTrue(real == 1);
         }
         [TestMethod]
         public void CustomersInsert()
         {
-            Customer cust1 = new Customer();
-            cust1.CustomerID = "SERRA";
-            cust1.CompanyName = "Insert test kjd";
-            custMapper.Insert(cust1);
-            int res = connMan.GetAffectedRows();
-            Assert.IsTrue(res == 1);
+            Product cust1 = new Product();
+            cust1.ProductID = 1;
+            cust1.ProductName = "Insert test kjd";
+            prodMapper.Insert(cust1);
+            int real = connMan.GetAffectedRows();
+            Assert.IsTrue(real == 1);
         }
         [TestMethod]
         public void CustomersDelete()
         {
-            Customer cust1 = new Customer();
-            cust1.CustomerID = "SERRA";
-            custMapper.Delete(cust1);
-            int res = connMan.GetAffectedRows();
-            Assert.IsTrue(res == 1);
+            Product cust1 = new Product();
+            cust1.ProductID = 1;
+            prodMapper.Delete(cust1);
+            int real = connMan.GetAffectedRows();
+            Assert.IsTrue(real == 1);
         }
     }
 }

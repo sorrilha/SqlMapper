@@ -52,12 +52,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="EDs\Category.cs" />
     <Compile Include="EDs\Customer.cs" />
     <Compile Include="EDs\Employee.cs" />
     <Compile Include="EDs\Order.cs" />
     <Compile Include="EDs\Product.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="EDs\Supplier.cs" />
+    <Compile Include="TestCustomers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestProducts.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SqlMapper\SqlMapper.csproj">
@@ -67,7 +70,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="OrderedTest1.orderedtest">
+    <None Include="TestProducts.orderedtest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="TestCustomers.orderedtest">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

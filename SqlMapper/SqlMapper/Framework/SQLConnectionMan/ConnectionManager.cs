@@ -12,7 +12,7 @@ namespace SqlMapper.Framework.SQLConnectionMan
         protected SqlDataReader _reader;
         protected int _affectedRows;
 
-        public ConnectionManager(SqlConnection sqlConnection, String connectionStr)
+        protected ConnectionManager(SqlConnection sqlConnection, String connectionStr)
         {
             _connectionStr = connectionStr;
             _sqlConnection = sqlConnection;
