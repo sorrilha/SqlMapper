@@ -41,7 +41,7 @@ namespace SqlMapperTest
         public void CustomersGetAll()
         {
             int result=0;
-            ISqlEnumerable<Customer> custs = custMapper.GetAll().Where("CustomerID = SERRA").Where("CompanyName = Insert test kjd");
+            ISqlEnumerable<Customer> custs = custMapper.GetAll().Where("CustomerID = 'SERRA'").Where("CompanyName = 'Insert test kjd'");
             connecttion = new SqlConnection(_conStr);
             connecttion.Open();
             command = new SqlCommand("SELECT * FROM Customers WHERE CustomerID = 'SERRA' AND CompanyName = 'Insert test kjd' ");
@@ -52,7 +52,8 @@ namespace SqlMapperTest
             connecttion.Close();
             connecttion.Dispose();
             command.Dispose();
-            Assert.IsTrue(custs.Count() == result);
+            int real = custs.Count();
+            Assert.IsTrue(real == result);
         }
 
         [TestMethod]

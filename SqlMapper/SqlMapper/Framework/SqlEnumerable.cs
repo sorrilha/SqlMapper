@@ -15,21 +15,18 @@ namespace SqlMapperTest.Framework
         private SqlCommand _command;
         private SqlDataReader _reader;
         private Object[] _mapOfObjects;
-        private List<string> _clauses;
-        private String _query; 
+
         public SqlEnumerable(ConnectionManager conMan, SqlCommand command, Object[] mapOfObjects)
         {
             _conMan = conMan;
             _command = command;
             _mapOfObjects = mapOfObjects;
-            _clauses = new List<String>();
-            _query  = _command.CommandText;
             
         }
 
         public ISqlEnumerable<T> Where(string clause)
         {
-            _clauses.Add(clause);
+           /* _clauses.Add(clause);
             
             foreach(String s in _clauses)
             {
@@ -43,7 +40,12 @@ namespace SqlMapperTest.Framework
             
             _command.CommandText = _query;
            
-            return this;
+            return this;*/
+
+            bool wh = _command.CommandText.Contains("WHERE");
+            if (wh) _command.CommandText = _command.CommandText + " AND " + clause;
+            else _command.CommandText += " WHERE " + clause; 
+                return this;
 
         }
 
