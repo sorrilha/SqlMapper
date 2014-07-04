@@ -1,3 +1,6 @@
 .txt
 .cache
 .suo
+.TMP
+.pdb
+.gitignore
