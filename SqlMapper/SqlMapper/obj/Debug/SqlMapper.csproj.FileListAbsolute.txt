@@ -22,9 +22,9 @@ Y:\Documents\ISEL\AVE\TrabalhoFinal\SqlMapper\SqlMapper\obj\Debug\SqlMapper.cspr
 \\psf\Home\Documents\ISEL\AVE\SqlMapper\SqlMapper\SqlMapper\obj\Debug\SqlMapper.exe
 \\psf\Home\Documents\ISEL\AVE\SqlMapper\SqlMapper\SqlMapper\obj\Debug\SqlMapper.pdb
 \\psf\Home\Documents\ISEL\Ave_TrabelhoFinal\SqlMapper\SqlMapper\SqlMapper\bin\Debug\SqlMapper.exe.config
-\\psf\Home\Documents\ISEL\Ave_TrabelhoFinal\SqlMapper\SqlMapper\SqlMapper\obj\Debug\SqlMapper.exe
-\\psf\Home\Documents\ISEL\Ave_TrabelhoFinal\SqlMapper\SqlMapper\SqlMapper\obj\Debug\SqlMapper.pdb
-\\psf\Home\Documents\ISEL\Ave_TrabelhoFinal\SqlMapper\SqlMapper\SqlMapper\obj\Debug\SqlMapper.csprojResolveAssemblyReference.cache
 \\psf\Home\Documents\ISEL\Ave_TrabelhoFinal\SqlMapper\SqlMapper\SqlMapper\bin\Debug\SqlMapper.exe
 \\psf\Home\Documents\ISEL\Ave_TrabelhoFinal\SqlMapper\SqlMapper\SqlMapper\bin\Debug\SqlMapper.pdb
 \\psf\Home\Documents\ISEL\Ave_TrabelhoFinal\SqlMapper\SqlMapper\SqlMapper\bin\Debug\LinFu.DynamicProxy.dll
+\\psf\Home\Documents\ISEL\Ave_TrabelhoFinal\SqlMapper\SqlMapper\SqlMapper\obj\Debug\SqlMapper.exe
+\\psf\Home\Documents\ISEL\Ave_TrabelhoFinal\SqlMapper\SqlMapper\SqlMapper\obj\Debug\SqlMapper.pdb
+\\psf\Home\Documents\ISEL\Ave_TrabelhoFinal\SqlMapper\SqlMapper\SqlMapper\obj\Debug\SqlMapper.csprojResolveAssemblyReference.cache

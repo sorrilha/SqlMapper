@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using SqlMapper.Framework;
 using System.Data.SqlClient;
 using SqlMapper.Framework.CustomAttributes;
 using SqlMapper.Framework.MapTypes;
 using SqlMapper.Framework.SQLConnectionMan;
-using SqlMapperTest.Framework;
-using SqlMapperTest.Framework.CustomAttributes;
+
 
 
 namespace SqlMapper.Framework
@@ -19,59 +14,69 @@ namespace SqlMapper.Framework
     public class Builder
     {
         private ConnectionManager _connectionManager;
-        private Object[] _mapOfObjects;
+        private readonly TypeMapers _mapTypes;
         private SqlCommand _command;
-        public Builder(ConnectionManager connectionManager, Object[] mapOfObjects)
+       // List<IDataMapper> dataMappers = new List<IDataMapper>();
+        Dictionary<Type, IDataMapper>dataMappers = new Dictionary<Type,IDataMapper>();
+        //private List<String> listOfFk = new List<string>(); 
+        private Dictionary<String, Type> listOfFk = new Dictionary<String, Type>();
+        public Builder(ConnectionManager connectionManager, TypeMapers mapTypes)
         {
             _connectionManager = connectionManager;
-            _mapOfObjects = mapOfObjects;
+            _mapTypes = mapTypes;
         }
+
 
 
         public IDataMapper<T> Build<T>()
         {
-           
+          
             Object instance = Activator.CreateInstance<T>();
             _command = new SqlCommand();
             Table table;
             table = instance.GetType().GetCustomAttribute<Table>();
             String tableName = table.getTableName();
             Pk pkAtribute = null;
-            //Dictionary<String, String> foreignKeyMap = new Dictionary<string, string>();
-           // List<Fk> fkList = new List<Fk>();
-            Fk fk = instance.GetType().GetCustomAttribute<Fk>();
-            if (fk != null)
-            {
-                String NameOfFk = fk.getFkName();
-                String tableOfFk = fk.getTableName();
-                Type type = fk.getFkType();
-                Object instOfFk = Activator.CreateInstance(type);
-                var dataMapper = new DataMapper(instOfFk);
-                SqlEnumerable sqlEnumerable = dataMapper.GetAll();
-            }
 
-            foreach (Object  obj in _mapOfObjects)
+            ConstructorInfo ctor = _mapTypes.GetType().GetConstructor(new Type[] { typeof(Type) });
+            object o = ctor.Invoke(new object[] { typeof(T) });
+            TypeMapers tm = (TypeMapers) o;
+            
+
+            string pkName;
+            foreach (KeyValuePair<string, object> dic in tm.getParams())
             {
-                Pk aux;
+                String name = dic.Key;
+                object obj = dic.Value;
+                    MemberInfo ob = instance.GetType().GetProperty(name);
+                    if (ob == null)
+                        ob = instance.GetType().GetField(name);
+                    Fk fk = ob.GetCustomAttribute<Fk>();
+                    if (fk != null)
+                    {
+                        Type type = fk.getFkType();
+                        
+                        listOfFk.Add(fk.getFkPkName(), fk.getFkType());
+                        MethodInfo meth = GetType().GetMethod("Build");
+                        MethodInfo generic = meth.MakeGenericMethod(type);
+                        IDataMapper invoke = (IDataMapper) generic.Invoke(this, null);
+                        dataMappers.Add(type, invoke);
+                    }
+
+                    Pk aux;
+                    aux = ob.GetCustomAttribute<Pk>();
+                    if (aux != null)
+                        pkAtribute = aux;
                 
-                String name = obj.ToString().Split(' ')[1];
-                MemberInfo ob = instance.GetType().GetProperty(name);
-                if(ob == null)
-                    ob = instance.GetType().GetField(name);
-                aux = ob.GetCustomAttribute<Pk>();
-               
-                if (aux != null)
-                    pkAtribute = aux;
-
-               
             }
 
-            String pkName = pkAtribute.getPkName();
+            pkName = pkAtribute.getPkName();
             
-            
-            return new Mapper<T>(_connectionManager,_command, _mapOfObjects, tableName, pkName);
+            return new Mapper<T>(_connectionManager, _command, tm.getParams(), tableName, pkName, dataMappers, listOfFk);
         }
     }
+
+
 }
 
 

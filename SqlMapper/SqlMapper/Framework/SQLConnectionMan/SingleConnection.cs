@@ -9,7 +9,7 @@ using SqlMapper.Framework.SQLConnectionMan;
 
 namespace SqlMapper.SQLConnection
 {
-    class SingleConnection : ConnectionManager
+    public class SingleConnection : ConnectionManager
     {
          private static readonly String _conStr = ConfigurationManager.ConnectionStrings[Environment.MachineName].ConnectionString;
 

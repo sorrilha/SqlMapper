@@ -1,41 +1,37 @@
 ﻿using System;
 using SqlMapper.Framework.CustomAttributes;
-using SqlMapperTest.Framework.CustomAttributes;
+
 
 
 namespace SqlMapperTest.EDs
 {
     [Table("Products")]
-    public class Product
+    public class Product : IDEntity
     {
        
         [Pk("ProductID")]
         public int ProductID{ get; set; }
         public String  ProductName { get; set; }
+        [Fk("SupplierID", "Suppliers", typeof(Supplier))]
+        public Supplier supplier { get; set; }
+        [Fk("CategoryID", "Categories", typeof(Category))]
+        public Category category { get; set; }
         public String  QuantityPerUnit { get; set; }
         public decimal ? UnitPrice { get; set; }
-        public short ? UnitsInStock { get; set; }
-        public short ? UnitsOnOrder { get; set; }
-        [Fk("SupplierID", "Suppliers", typeof(Supplier))] 
-        public Supplier supplier;
-        [Fk("CategoryID", "Categories", typeof(Category))] 
-        public Category categoy;
+        public short? UnitsInStock { get; set; }
+        public short? UnitsOnOrder { get; set; }
        
-        public override string ToString()
+      
+        
+
+        private String[] mapMapName = { "ProductID", "ProductName", "QuantityPerUnit", "UnitPrice", "UnitsInStock", 
+                                           "UnitsOnOrder", "supplier", "category" };
+
+        
+
+        public String[] getMapNames()
         {
-            return string.Format("ProductID: {0}, " +
-                                 "ProductName: {1}, " +
-                                 "QuantityPerUnit: {2}, " +
-                                 "UnitPrice: {3}, " +
-                                 "UnitsInStock: {4}, " +
-                                 "UnitsOnOrder: {5}", 
-                                 ProductID, 
-                                 ProductName, 
-                                 QuantityPerUnit, 
-                                 UnitPrice, 
-                                 UnitsInStock, 
-                                 UnitsOnOrder);
-        }
-            
+            return mapMapName;
+        }   
     }
 }

@@ -33,6 +33,13 @@ namespace SqlMapper.Framework.SQLConnectionMan
         public override SqlDataReader ExecuteReader(SqlCommand cmd)
         {
             cmd.Connection = _sqlConnection;
+            if (_reader != null)
+            {
+                if (!_reader.IsClosed)
+                    _reader.Close();
+                _reader.Dispose();
+            }
+           
             _reader = cmd.ExecuteReader();
             return _reader;
         }

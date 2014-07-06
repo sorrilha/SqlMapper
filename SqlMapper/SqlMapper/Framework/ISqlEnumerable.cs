@@ -5,11 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SqlMapperTest.Framework
+namespace SqlMapper.Framework
 {
-    public interface ISqlEnumerable<T> :IEnumerable<T>
+    public interface ISqlEnumerable<T> :IEnumerable<T>, ISqlEnumerable
     {
         ISqlEnumerable<T> Where(string clause);
     }
-
+    public interface ISqlEnumerable : IEnumerable
+    {
+        ISqlEnumerable Where(string clause);
+    }
 }

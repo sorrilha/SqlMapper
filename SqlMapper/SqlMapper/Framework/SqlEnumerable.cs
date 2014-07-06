@@ -2,23 +2,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Reflection;
+using SqlMapper.Framework;
+using SqlMapper.Framework.CustomAttributes;
 using SqlMapper.Framework.SQLConnectionMan;
 
-namespace SqlMapperTest.Framework
+
+namespace SqlMapper.Framework
 {
-    class SqlEnumerable<T> :ISqlEnumerable<T>
+    public class SqlEnumerable<T> :ISqlEnumerable<T>
     {
         private ConnectionManager _conMan;
         private SqlCommand _command;
         private SqlDataReader _reader;
-        private Object[] _mapOfObjects;
+        private Dictionary<String, object> _mapOfObjects;
+        private Dictionary<Type, IDataMapper> _fkmappers;
+        private Dictionary<String, Type> _fkNames;
 
-        public SqlEnumerable(ConnectionManager conMan, SqlCommand command, Object[] mapOfObjects)
+        public SqlEnumerable(ConnectionManager conMan, SqlCommand command, Dictionary<String, object> mapOfObjects, Dictionary<Type, IDataMapper> fkmappers, Dictionary<String, Type> fkNames)
         {
             _conMan = conMan;
             _command = command;
             _mapOfObjects = mapOfObjects;
-            
+            _fkmappers = fkmappers;
+            _fkNames = fkNames;
         }
 
         public ISqlEnumerable<T> Where(string clause)
@@ -33,27 +40,70 @@ namespace SqlMapperTest.Framework
 
         public IEnumerator<T> GetEnumerator()
         {
-
+            int i = 0;
             _reader = _conMan.ExecuteReader(_command);
+            
             if (_reader.HasRows)
             {
+                Object instance = Activator.CreateInstance<T>();
                 while (_reader.Read())
                 {
-                    Object instance = Activator.CreateInstance<T>();
-                    foreach (var p in _mapOfObjects)
+                    object value;
+                    int columnOrder = i;
+                    String column = _reader.GetName(columnOrder);
+                    bool containsValue = _mapOfObjects.ContainsKey(column);
+                    if (containsValue)
                     {
-                        String column = p.ToString().Split(' ')[1];
-                        int columnOrder = _reader.GetOrdinal(column);
-                        Object value = _reader.GetValue(columnOrder);
+                        value = _reader.GetValue(columnOrder);
                         if (_reader.IsDBNull(columnOrder))
                             value = null;
                         instance.GetType().GetProperty(column).SetValue(instance, value);
-                       
+                        if (i < _reader.FieldCount) i++;
+                        // isto n pode ser assim , tenho de conseguir fazer set quer seja Prop/Field/ED
                     }
-                    yield return (T)instance;
+                    else
+                    {
+
+                        bool containsFk = _fkNames.ContainsKey(column);
+                        if (containsFk)
+                        {
+                            Type aux = _fkNames[column];
+                            ConstructorInfo ctor = aux.GetConstructor(new Type[] { });
+                            object ent = ctor.Invoke(new object[] {});
+                            value = _reader.GetValue(columnOrder);
+                            value = CreateFkEntity(ent, column, value);
+                            instance.GetType().GetProperty(column).SetValue(instance, value);
+                            if (i < _reader.FieldCount) i++;
+                        }
+
+                    }
+                    
                 }
+                yield return (T)instance;
             }
         }
+
+        ISqlEnumerable ISqlEnumerable.Where(string clause)
+        {
+            return Where(clause);
+        }
+
+
+        private object CreateFkEntity(object ent, String column, object value)
+        {
+            IDataMapper dm = _fkmappers[ent.GetType()];
+           
+            ISqlEnumerable enumerable = dm.GetAll().Where(column + " = " + value);
+            IEnumerator enumer = enumerable.GetEnumerator();
+            bool next = enumer.MoveNext();
+            if (next)
+                ent = enumer.Current;
+            
+           // enumer.Reset();
+            
+            return ent;
+        }
+
 
         IEnumerator IEnumerable.GetEnumerator()
         {

@@ -18,7 +18,7 @@ namespace SqlMapperTest
     {
         private static readonly String _conStr = ConfigurationManager.ConnectionStrings[Environment.MachineName].ConnectionString;
         private IDataMapper<Customer> custMapper;
-        private TypeMapers<Customer> mapType;
+        private TypeMapers mapType;
         private ConnectionManager connMan;
         private int affectedRows;
         private SqlDataReader reader;
@@ -28,10 +28,10 @@ namespace SqlMapperTest
         [TestMethod]
         public void AssertDataMapper()
         {
-            mapType = new MapWithFields<Customer>();
+            mapType = new MapWithFields(typeof(Customer));
             connMan = new PersistentConnection(new SqlConnection());
-            Object[] mapOfObjects = mapType.getParams();
-            Builder b = new Builder(connMan, mapOfObjects);
+            Dictionary<String, object> mapOfObjects = mapType.getParams();
+            Builder b = new Builder(connMan, mapType);//mapOfObjects);
             custMapper = b.Build<Customer>();
             Assert.IsNotNull(custMapper);
             //Assert.IsInstanceOfType(custMapper, IDataMapper<Customer>());

@@ -4,7 +4,7 @@ using SqlMapper.Framework.CustomAttributes;
 namespace  SqlMapperTest.EDs
 {
     [Table("Employees")]
-    class Employee
+    class Employee : IDEntity
     {
 
         [Pk("EmployeeID")]
@@ -20,30 +20,13 @@ namespace  SqlMapperTest.EDs
         public String Region { get; set; }        
         public String PostalCode { get; set; }
 
-        public override string ToString()
+        private String[] mapMapName = { "EmployeeID", "LastName", "FirstName", "Title", "TitleOfCourtesy", 
+                                           "BirthDate", "HireDate", "Address", "City", "Region", "PostalCode" };
+
+        public String[] getMapNames()
         {
-            return string.Format("EmployeeID: {0}," +
-                                 " LastName: {1}," +
-                                 " FirstName: {2}," +
-                                 " Title: {3}," +
-                                 " TitleOfCourtesy: {4}," +
-                                 " BirthDate: {5}," +
-                                 " HireDate: {6}," +
-                                 " Address: {7}," +
-                                 " City: {8}," +
-                                 " Region: {9}," +
-                                 " PostalCode: {10}",
-                                 EmployeeID,
-                                 LastName,
-                                 FirstName,
-                                 Title,
-                                 TitleOfCourtesy,
-                                 BirthDate,
-                                 HireDate,
-                                 Address,
-                                 City,
-                                 Region,
-                                 PostalCode);
-        }
+            return mapMapName;
+        }   
+
     }
 }

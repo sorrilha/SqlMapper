@@ -8,7 +8,7 @@ using SqlMapper.Framework.CustomAttributes;
 namespace SqlMapperTest.EDs
 {
     [Table("Suppliers")]
-    public class Supplier
+    public class Supplier : IDEntity
     {
         [Pk("SupplierID")]
         public int SupplierID { get; set; }
@@ -21,5 +21,12 @@ namespace SqlMapperTest.EDs
         public String Country { get; set; }
         public String Phone { get; set; }
         public String Fax { get; set; }
+        private String[] mapMapName = { "SupplierID", "CompanyName", "ContactTitle", "Address", "City", 
+                                           "Region", "PostalCode", "Country", "Phone", "Fax" };
+
+        public String[] getMapNames()
+        {
+            return mapMapName;
+        }   
     }
 }

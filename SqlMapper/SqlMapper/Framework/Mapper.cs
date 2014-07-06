@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Reflection;
-using SqlMapper.Framework.CustomAttributes;
 using SqlMapper.Framework.SQLConnectionMan;
 using SqlMapperTest.Framework;
-using SqlMapperTest.Framework.CustomAttributes;
 
 
 namespace SqlMapper.Framework
@@ -14,44 +12,31 @@ namespace SqlMapper.Framework
     {
         private SqlCommand _command;
         private ConnectionManager _conMan;
-        private object[] _mapOfObjects;
+        private Dictionary<String,object>_mapOfObjects;
         private string _tableName;
         private string _pkName;
-        private object _instance;
         protected SqlDataReader _reader;
         protected int _affectedRows;
-        private Dictionary<string, string> _foreignKeyMap; 
+        Dictionary<Type, IDataMapper> _fkmappers;
+        private Dictionary<String, Type> _fkNames;
 
 
-        public Mapper(ConnectionManager conMan,SqlCommand command, object[] mapOfObjects,  string tableName, string pkName )
+        public Mapper(ConnectionManager conMan, SqlCommand command, Dictionary<String, object> mapOfObjects, string tableName, string pkName, Dictionary<Type, IDataMapper> fkmappers, Dictionary<String, Type> fkNames)
         {
             _conMan = conMan;
             _command = command;
             _mapOfObjects = mapOfObjects;
             _tableName = tableName;
             _pkName = pkName;
-           
+            _fkmappers = fkmappers;
+            _fkNames = fkNames;
         }
+
 
         public ISqlEnumerable<T> GetAll()
         {
             GetAll_query();
-            return new SqlEnumerable<T>(_conMan, _command, _mapOfObjects);     
-        }
-
-        public void Update(object val)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(object val)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Insert(object val)
-        {
-            throw new NotImplementedException();
+            return new SqlEnumerable<T>(_conMan, _command, _mapOfObjects, _fkmappers, _fkNames);     
         }
 
         public void GetAll_query()
@@ -70,18 +55,18 @@ namespace SqlMapper.Framework
         {
             String aux = "";
             var key = GetValue(val, _pkName);
-            foreach (var p in _mapOfObjects)
+            foreach (KeyValuePair<string, object> dic in _mapOfObjects)
             {
-                String propName = p.ToString().Split(' ')[1];
-                if (!_pkName.Equals(propName))
+                String name = dic.Key;
+                if (!_pkName.Equals(name))
                 {
-                    aux += propName + " = @" + propName + ", ";
+                    aux += name + " = @" + name + ", ";
                    
-                    object value = GetValue(val, propName);
+                    object value = GetValue(val, name);
                     if (value == null)
                         value = DBNull.Value;
                         
-                    _command.Parameters.AddWithValue("@" + propName, value);
+                    _command.Parameters.AddWithValue("@" + name, value);
                 }
             }
             aux = aux.Remove(aux.Length - 2);
@@ -115,27 +100,27 @@ namespace SqlMapper.Framework
         {
             String aux = "";
             String parameters = "";
-            foreach (var p in _mapOfObjects)
+            foreach (KeyValuePair<string, object> dic in _mapOfObjects)
             {
-                String propName = p.ToString().Split(' ')[1];
-                aux += propName + ", ";
-                parameters += " @" + propName + ", ";
-                Object value = GetValue(val, propName);
+                String name = dic.Key;
+                aux += name + ", ";
+                parameters += " @" + name + ", ";
+                Object value = GetValue(val, name);
                 if (value == null)
                     value = DBNull.Value;
-                
-                _command.Parameters.AddWithValue("@" + propName, value);
+
+                _command.Parameters.AddWithValue("@" + name, value);
             }
             aux = aux.Remove(aux.Length - 2);
             parameters = parameters.Remove(parameters.Length - 2);
             _command.CommandText = "INSERT INTO " + _tableName + " ( " + aux + " ) Values (" + parameters + " )";
         }
 
-        private Object GetValue(object val, string propName)
+        private Object GetValue(object val, string name)
         {
 
             Object value = null;
-            MemberInfo[] myMember = val.GetType().GetMember(propName);
+            MemberInfo[] myMember = val.GetType().GetMember(name);
             if (myMember.Length < 1) return null;
 
             switch (myMember[0].MemberType)
@@ -150,9 +135,24 @@ namespace SqlMapper.Framework
             return value;
         }
 
-        SqlEnumerable IDataMapper.GetAll()
+        ISqlEnumerable IDataMapper.GetAll()
         {
-            throw new NotImplementedException();
+            return GetAll();
+        }
+
+        public void Update(object val)
+        {
+            Update((T)val);
+        }
+
+        public void Delete(object val)
+        {
+            Delete((T)val);
+        }
+
+        public void Insert(object val)
+        {
+           Insert((T)val);
         }
     }
 }
