@@ -9,7 +9,7 @@ namespace SqlMapper.Framework
 {
     public interface ISqlEnumerable<T> :IEnumerable<T>, ISqlEnumerable
     {
-        ISqlEnumerable<T> Where(string clause);
+        new ISqlEnumerable<T> Where(string clause);
     }
     public interface ISqlEnumerable : IEnumerable
     {

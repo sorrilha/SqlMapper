@@ -22,7 +22,7 @@ namespace SqlMapper.Framework.CustomAttributes
             _fkName = fkName;
             _tableName = tableName;
             _type = type;
-            Object inst = Activator.CreateInstance(type);
+            Object inst = Activator.CreateInstance(type.GetType());
             MemberInfo m = inst.GetType().GetMember(fkName)[0];
            
 
@@ -30,9 +30,10 @@ namespace SqlMapper.Framework.CustomAttributes
 
         }
 
-        public Type getFkType()
+        public IEntity getFkType()
         {
-            return _type;
+            Object o =  Activator.CreateInstance(_type.GetType());
+            return (IEntity)o ;
         }
         public string getFkName()
         {
@@ -46,7 +47,7 @@ namespace SqlMapper.Framework.CustomAttributes
 
         public object[] getParams()
         {
-            return _type.GetProperties();
+            return _type.GetType().GetProperties();
         }
 
         public string getFkPkName()

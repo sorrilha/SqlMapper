@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Reflection;
 using SqlMapper.Framework;
@@ -17,9 +18,9 @@ namespace SqlMapper.Framework
         private SqlDataReader _reader;
         private Dictionary<String, object> _mapOfObjects;
         private Dictionary<Type, IDataMapper> _fkmappers;
-        private Dictionary<String, Type> _fkNames;
+        private Dictionary<String, IEntity> _fkNames;
 
-        public SqlEnumerable(ConnectionManager conMan, SqlCommand command, Dictionary<String, object> mapOfObjects, Dictionary<Type, IDataMapper> fkmappers, Dictionary<String, Type> fkNames)
+        public SqlEnumerable(ConnectionManager conMan, SqlCommand command, Dictionary<String, object> mapOfObjects, Dictionary<Type, IDataMapper> fkmappers, Dictionary<String, IEntity> fkNames)
         {
             _conMan = conMan;
             _command = command;
@@ -30,58 +31,62 @@ namespace SqlMapper.Framework
 
         public ISqlEnumerable<T> Where(string clause)
         {
-     
-            bool whereIsPresent = _command.CommandText.Contains("WHERE");
-            if (whereIsPresent) _command.CommandText = _command.CommandText + " AND " + clause;
-            else _command.CommandText += " WHERE " + clause; 
+            if (clause!=null)
+            {
+                bool whereIsPresent = _command.CommandText.Contains("WHERE");
+                if (whereIsPresent) _command.CommandText = _command.CommandText + " AND " + clause;
+                else _command.CommandText += " WHERE " + clause;
+            }
                 return this;
 
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            int i = 0;
-            _reader = _conMan.ExecuteReader(_command);
-            
-            if (_reader.HasRows)
-            {
+            _reader = _conMan.ExecuteReader(_command.CommandText);
+            while(_reader.Read()){
+
                 Object instance = Activator.CreateInstance<T>();
-                while (_reader.Read())
-                {
-                    object value;
-                    int columnOrder = i;
-                    String column = _reader.GetName(columnOrder);
-                    bool containsValue = _mapOfObjects.ContainsKey(column);
-                    if (containsValue)
+                    int i = 0;
+                    int j = _mapOfObjects.Count;
+                    while (j >0)
                     {
-                        value = _reader.GetValue(columnOrder);
-                        if (_reader.IsDBNull(columnOrder))
-                            value = null;
-                        instance.GetType().GetProperty(column).SetValue(instance, value);
-                        if (i < _reader.FieldCount) i++;
-                        // isto n pode ser assim , tenho de conseguir fazer set quer seja Prop/Field/ED
-                    }
-                    else
-                    {
-
-                        bool containsFk = _fkNames.ContainsKey(column);
-                        if (containsFk)
+                        j--;
+                        object value;
+                        int columnOrder = i;
+                        String column = _reader.GetName(columnOrder);
+                        bool containsValue = _mapOfObjects.ContainsKey(column);
+                        if (containsValue)
                         {
-                            Type aux = _fkNames[column];
-                            ConstructorInfo ctor = aux.GetConstructor(new Type[] { });
-                            object ent = ctor.Invoke(new object[] {});
                             value = _reader.GetValue(columnOrder);
-                            value = CreateFkEntity(ent, column, value);
+                            if (_reader.IsDBNull(columnOrder))
+                                value = null;
                             instance.GetType().GetProperty(column).SetValue(instance, value);
-                            if (i < _reader.FieldCount) i++;
+                            // isto n pode ser assim , tenho de conseguir fazer set quer seja Prop/Field/ED
                         }
+                        else
+                        {
 
+                            bool containsFk = _fkNames.ContainsKey(column);
+                            if (containsFk)
+                            {
+                                IEntity aux = _fkNames[column];
+                                ConstructorInfo ctor = aux.GetType().GetConstructor(new Type[] {});
+                                object ent = ctor.Invoke(new object[] {});
+                                var val = _reader.GetValue(columnOrder);
+                                value = CreateFkEntity(ent, column, val);
+                                instance.GetType().GetProperty(value.GetType().Name.ToLower()).SetValue(instance, value);
+
+                            }
+
+                        }
+                        i++;
                     }
-                    
-                }
-                yield return (T)instance;
+                yield return (T) instance;
             }
         }
+
+       
 
         ISqlEnumerable ISqlEnumerable.Where(string clause)
         {

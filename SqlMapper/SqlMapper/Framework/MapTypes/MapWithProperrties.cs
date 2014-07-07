@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using SqlMapper.Framework.CustomAttributes;
+using System.Collections.Generic;
 
 namespace SqlMapper.Framework.MapTypes
 {
@@ -14,12 +15,21 @@ namespace SqlMapper.Framework.MapTypes
             MethodInfo mi = type.GetMethod("getMapNames");
            
             String [] paramsName = (string[]) mi.Invoke(x, null);
-            object[] paramis = type.GetProperties();
             foreach(String s in paramsName)
             {    
                     object o = type.GetProperty(s);
                      _params.Add(s,o);
             }
+
+            PropertyInfo []pi = type.GetProperties();
+            foreach (PropertyInfo p in pi)
+            {
+                Fk fk = p.GetCustomAttribute<Fk>();
+                if(fk!= null)
+                    getForeignToPrimary().Add(p.Name, fk.getFkPkName());
+
+            }
+           
         }
 
     }

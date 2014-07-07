@@ -56,23 +56,25 @@ namespace SqlMapperTest
             Assert.IsTrue(real == expected);
         }
 
-        [TestMethod]
-        public void CustomersUpdate()
-        {
-            Customer cust = new Customer();
-            cust.CustomerID = "ALFKI";
-            cust.CompanyName = "Testing stuff";
-            custMapper.Update(cust);
-            int real = connMan.GetAffectedRows();
-            Assert.IsTrue(real == 1);
-        }
+       
         [TestMethod]
         public void CustomersInsert()
         {
             Customer cust1 = new Customer();
-            cust1.CustomerID = "SERRA";
-            cust1.CompanyName = "Insert test kjd";
+            cust1.CustomerID = "Ana";
+            cust1.CompanyName = "Insert test 4 Ana";
             custMapper.Insert(cust1);
+            int real = connMan.GetAffectedRows();
+            Assert.IsTrue(real == 1);
+        }
+
+        [TestMethod]
+        public void CustomersUpdate()
+        {
+            Customer cust = new Customer();
+            cust.CustomerID = "Ana";
+            cust.CompanyName = "Update test 4 Sofia";
+            custMapper.Update(cust);
             int real = connMan.GetAffectedRows();
             Assert.IsTrue(real == 1);
         }
@@ -80,7 +82,7 @@ namespace SqlMapperTest
         public void CustomersDelete()
         {
             Customer cust1 = new Customer();
-            cust1.CustomerID = "SERRA";
+            cust1.CustomerID = "Ana";
             custMapper.Delete(cust1);
             int real = connMan.GetAffectedRows();
             Assert.IsTrue(real == 1);

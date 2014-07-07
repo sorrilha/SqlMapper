@@ -1,4 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<OrderedTest xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010" id="75d5ca20-3cd0-4a18-a0fb-8062b077a9b9" name="OrderedTest1">
-	
+<OrderedTest name="testproducts" storage="\\psf\home\documents\isel\ave_trabelhofinal\sqlmapper\sqlmapper\sqlmappertest\testproducts.orderedtest" id="75d5ca20-3cd0-4a18-a0fb-8062b077a9b9" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestLinks>
+    <TestLink id="2b1f49a0-1241-afb5-bad2-0b63b4661cc4" name="AssertDataMapper" storage="bin\debug\sqlmappertest.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="d40c48b1-38f3-a2c6-2c40-69897c4ee8fd" name="ProductsGetAll" storage="bin\debug\sqlmappertest.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="05b1cf5c-03b1-8ce2-e529-55a85523d45e" name="ProductsInsert" storage="bin\debug\sqlmappertest.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="c153d600-f7ec-2164-2ac8-d9abd966d39d" name="CustomersUpdate" storage="bin\debug\sqlmappertest.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="1378a6c3-8a1e-bc6e-ce99-c6acc8ed7d0f" name="ProductsDelete" storage="bin\debug\sqlmappertest.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  </TestLinks>
 </OrderedTest>

@@ -18,12 +18,13 @@ namespace SqlMapper.Framework
         private SqlCommand _command;
        // List<IDataMapper> dataMappers = new List<IDataMapper>();
         Dictionary<Type, IDataMapper>dataMappers = new Dictionary<Type,IDataMapper>();
-        //private List<String> listOfFk = new List<string>(); 
-        private Dictionary<String, Type> listOfFk = new Dictionary<String, Type>();
+        private Dictionary<String, String> _foreignToPrimary;
+        private Dictionary<String, IEntity> listOfFk = new Dictionary<String, IEntity>();
         public Builder(ConnectionManager connectionManager, TypeMapers mapTypes)
         {
             _connectionManager = connectionManager;
             _mapTypes = mapTypes;
+            _foreignToPrimary = _mapTypes.getForeignToPrimary();
         }
 
 
@@ -43,7 +44,7 @@ namespace SqlMapper.Framework
             TypeMapers tm = (TypeMapers) o;
             
 
-            string pkName;
+            
             foreach (KeyValuePair<string, object> dic in tm.getParams())
             {
                 String name = dic.Key;
@@ -54,13 +55,13 @@ namespace SqlMapper.Framework
                     Fk fk = ob.GetCustomAttribute<Fk>();
                     if (fk != null)
                     {
-                        Type type = fk.getFkType();
+                        IEntity type = fk.getFkType();
                         
                         listOfFk.Add(fk.getFkPkName(), fk.getFkType());
                         MethodInfo meth = GetType().GetMethod("Build");
-                        MethodInfo generic = meth.MakeGenericMethod(type);
-                        IDataMapper invoke = (IDataMapper) generic.Invoke(this, null);
-                        dataMappers.Add(type, invoke);
+                        MethodInfo generic = meth.MakeGenericMethod(type.GetType());
+                        IDataMapper invoke = (IDataMapper) generic.Invoke(this.GetType(), null);
+                        dataMappers.Add(type.GetType(), invoke);
                     }
 
                     Pk aux;
@@ -70,9 +71,9 @@ namespace SqlMapper.Framework
                 
             }
 
-            pkName = pkAtribute.getPkName();
+           
             
-            return new Mapper<T>(_connectionManager, _command, tm.getParams(), tableName, pkName, dataMappers, listOfFk);
+            return new Mapper<T>(_connectionManager, _command, tm.getParams(), tableName, pkAtribute, dataMappers, listOfFk, _foreignToPrimary);
         }
     }
 

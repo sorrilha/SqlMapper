@@ -8,19 +8,17 @@ namespace SqlMapper.Framework.MapTypes
     {
         public MapWithFields(Type type)
         {
-            object x = Activator.CreateInstance(type, null);
+             object x = Activator.CreateInstance(type, null);
             MethodInfo mi = type.GetMethod("getMapNames");
-            String[] paramsName = (string[]) mi.Invoke(type, null);
-            object[] paramis = type.GetFields();
-            foreach (String s in paramsName)
-            {
-                foreach (object o in paramis)
-                {
-                    if (o.ToString().Contains(s))
-                        _params.Add(s, o);
-                }
-
+           
+            String [] paramsName = (string[]) mi.Invoke(x, null);
+            foreach(String s in paramsName)
+            {    
+                    object o = type.GetField(s);
+                     _params.Add(s,o);
             }
         }
-    }
+
+        }
+    
 }

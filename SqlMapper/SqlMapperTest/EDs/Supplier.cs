@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using SqlMapper.Framework;
 using SqlMapper.Framework.CustomAttributes;
 
 namespace SqlMapperTest.EDs
 {
     [Table("Suppliers")]
-    public class Supplier : IDEntity
+    public class Supplier : IEntity
     {
-        [Pk("SupplierID")]
+        [Pk("SupplierID",true)]
         public int SupplierID { get; set; }
         public String CompanyName { get; set; }
         public String ContactTitle { get; set; }
@@ -27,6 +29,11 @@ namespace SqlMapperTest.EDs
         public String[] getMapNames()
         {
             return mapMapName;
-        }   
+        }
+
+        public int getId()
+        {
+            return SupplierID;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 
@@ -15,34 +16,48 @@ namespace SqlMapper.Framework.SQLConnectionMan
             _sqlConnection.Open();
         }
 
-        public override int ExecuteNonQuery(SqlCommand cmd)
+        public override int ExecuteNonQuery(string stmt, Dictionary<string, object> parameters)
         {
-            if (_reader != null)
+            SqlCommand cmd = new SqlCommand(stmt);
+
+            foreach (KeyValuePair<string,object> p in parameters)
             {
-                if(!_reader.IsClosed)
-                    _reader.Close();
-                _reader.Dispose();
+                cmd.Parameters.AddWithValue(p.Key,p.Value);
             }
            
-            cmd.Connection = _sqlConnection;
+            SqlConnection connection = new SqlConnection(_connectionStr);
+            connection.Open();
+            cmd.Connection = connection;
             _affectedRows = cmd.ExecuteNonQuery(); 
             return _affectedRows;
         }
 
 
-        public override SqlDataReader ExecuteReader(SqlCommand cmd)
+        public override SqlDataReader ExecuteReader(String stmt)
         {
-            cmd.Connection = _sqlConnection;
-            if (_reader != null)
-            {
-                if (!_reader.IsClosed)
-                    _reader.Close();
-                _reader.Dispose();
-            }
-           
+
+           SqlCommand cmd = new SqlCommand(stmt);
+           SqlConnection connection = new SqlConnection(_connectionStr);
+            connection.Open();
+            cmd.Connection = connection;
             _reader = cmd.ExecuteReader();
             return _reader;
         }
 
+        public override object ExecuteScalar(string stmt, Dictionary<string, object> parameters)
+        {
+            SqlCommand cmd = new SqlCommand(stmt);
+
+            foreach (KeyValuePair<string, object> p in parameters)
+            {
+                cmd.Parameters.AddWithValue(p.Key, p.Value);
+            }
+
+            SqlConnection connection = new SqlConnection(_connectionStr);
+            connection.Open();
+            cmd.Connection = connection;
+            var id = cmd.ExecuteScalar();
+            return id;
+        }
     }
 }

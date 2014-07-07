@@ -1,15 +1,15 @@
 ﻿using System;
+using SqlMapper.Framework;
 using SqlMapper.Framework.CustomAttributes;
-
 
 
 namespace SqlMapperTest.EDs
 {
     [Table("Products")]
-    public class Product : IDEntity
+    public class Product : IEntity
     {
        
-        [Pk("ProductID")]
+        [Pk("ProductID", true)]
         public int ProductID{ get; set; }
         public String  ProductName { get; set; }
         [Fk("SupplierID", "Suppliers", typeof(Supplier))]
@@ -32,6 +32,11 @@ namespace SqlMapperTest.EDs
         public String[] getMapNames()
         {
             return mapMapName;
-        }   
+        }
+
+        public int getId()
+        {
+            return ProductID;
+        }
     }
 }

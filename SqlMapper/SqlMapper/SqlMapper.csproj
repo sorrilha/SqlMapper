@@ -68,6 +68,7 @@
     <Compile Include="Framework\CustomAttributes\Fk.cs" />
     <Compile Include="Framework\CustomAttributes\Pk.cs" />
     <Compile Include="Framework\CustomAttributes\Table.cs" />
+    <Compile Include="Framework\IEntity.cs" />
     <Compile Include="Framework\ISqlEnumerable.cs" />
     <Compile Include="Framework\Mapper.cs" />
     <Compile Include="Framework\MapTypes\MapWithFields.cs" />

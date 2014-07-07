@@ -1,12 +1,13 @@
 ﻿using System;
+using SqlMapper.Framework;
 using SqlMapper.Framework.CustomAttributes;
 
 namespace SqlMapperTest.EDs
 {
     [Table("Customers")]
-    public class Customer : IDEntity
+    public class Customer : IEntity
     {
-        [Pk("CustomerID")] //public String CustomerID { get; set; }
+        [Pk("CustomerID", false)] //public String CustomerID { get; set; }
         public String CustomerID;
 
         public String CompanyName;
@@ -37,6 +38,11 @@ namespace SqlMapperTest.EDs
         public String[] getMapNames()
         {
             return mapMapName;
-        }   
+        }
+
+        public int getId()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

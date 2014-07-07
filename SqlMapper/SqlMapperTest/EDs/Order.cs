@@ -1,12 +1,13 @@
 ﻿using System;
+using SqlMapper.Framework;
 using SqlMapper.Framework.CustomAttributes;
 
 namespace SqlMapperTest.EDs
 {
     [Table("Orders")]
-    class Order : IDEntity
+    class Order : IEntity
     {
-        [Pk("OrderID")]
+        [Pk("OrderID",true)]
         public int OrderID { get; set; }
         public DateTime ? OrderDate { get; set; }
         public DateTime ? RequiredDate { get; set; }
@@ -24,6 +25,11 @@ namespace SqlMapperTest.EDs
         public String[] getMapNames()
         {
             return mapMapName;
-        }   
+        }
+
+        public int getId()
+        {
+            return OrderID;
+        }
     }
 }

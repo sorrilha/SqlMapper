@@ -24,6 +24,7 @@ namespace SqlMapperTest
         private SqlDataReader reader;
         private SqlConnection connecttion;
         private SqlCommand command;
+        private Product product;
         [TestInitialize]
         [TestMethod]
         public void AssertDataMapper()
@@ -34,6 +35,7 @@ namespace SqlMapperTest
 
             Builder b = new Builder(connMan, mapType);//mapOfObjects);
             prodMapper = b.Build<Product>();
+            product = new Product();
             Assert.IsNotNull(prodMapper);
         }
 
@@ -52,14 +54,8 @@ namespace SqlMapperTest
             connecttion.Close();
             connecttion.Dispose();
             command.Dispose();
-            int real = 0;
-            //prods.Count();
             IEnumerator<Product> pr = prods.GetEnumerator();
-            bool next = pr.MoveNext();
-            Product p = null;
-            if (next)
-                p = pr.Current;
-            p.ToString();
+            int real = prods.Count();
             Assert.IsTrue(real == expected);
 
         }
@@ -67,29 +63,26 @@ namespace SqlMapperTest
         [TestMethod]
         public void ProductsUpdate()
         {
-            Product cust = new Product();
-            cust.ProductID = 1;
-            cust.ProductName = "Testing stuff";
-            prodMapper.Update(cust);
+            product.ProductName = "Updated Product";
+            prodMapper.Update(product);
             int real = connMan.GetAffectedRows();
             Assert.IsTrue(real == 1);
         }
         [TestMethod]
         public void ProductsInsert()
         {
-            Product cust1 = new Product();
-            cust1.ProductID = 1;
-            cust1.ProductName = "Insert test kjd";
-            prodMapper.Insert(cust1);
+            Supplier supplier=new Supplier();
+            supplier.SupplierID = 1;
+            product.supplier = supplier;
+            product.ProductName = "Inserted Product";
+            prodMapper.Insert(product);
             int real = connMan.GetAffectedRows();
-            Assert.IsTrue(real == 1);
+            Assert.IsTrue(product.ProductID>0);
         }
         [TestMethod]
         public void ProductsDelete()
         {
-            Product cust1 = new Product();
-            cust1.ProductID = 1;
-            prodMapper.Delete(cust1);
+            prodMapper.Delete(product);
             int real = connMan.GetAffectedRows();
             Assert.IsTrue(real == 1);
         }

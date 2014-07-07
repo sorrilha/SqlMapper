@@ -17,13 +17,14 @@ namespace SqlMapper.SQLConnection
         {
         }
 
-        public override int ExecuteNonQuery(SqlCommand cmd)
+        public override int ExecuteNonQuery(string stmt, Dictionary<string, object> parameters)
         {
            int affectedRows = 0;
            using (SqlConnection connection = new SqlConnection(_conStr)) 
             try    
             {
-
+                SqlCommand cmd = new SqlCommand(stmt);
+                cmd.Parameters.Add(parameters);
                 connection.Open();
                 cmd.Connection = connection;
                 cmd.Prepare();
@@ -43,12 +44,14 @@ namespace SqlMapper.SQLConnection
            return affectedRows;
         }
 
-        public override SqlDataReader ExecuteReader(SqlCommand cmd)
+        public override SqlDataReader ExecuteReader(String  stmt)
         {
            
             using (SqlConnection connection = new SqlConnection(_conStr))
                 try
-                {   
+                {
+                    SqlCommand cmd = new SqlCommand(stmt);
+                
                     connection.Open();
                     cmd.Connection = connection;
                     cmd.Prepare();
@@ -67,6 +70,33 @@ namespace SqlMapper.SQLConnection
                     /*Handle error*/
                 }
                 return _reader;
+        }
+
+        public override object ExecuteScalar(string stmt, Dictionary<string, object> parameters)
+        {
+            int id = 0;
+            using (SqlConnection connection = new SqlConnection(_conStr))
+                try
+                {
+                    SqlCommand cmd = new SqlCommand(stmt);
+                    cmd.Parameters.Add(parameters);
+                    connection.Open();
+                    cmd.Connection = connection;
+                    cmd.Prepare();
+                    SqlTransaction trans = connection.BeginTransaction();
+                    cmd.Transaction = trans;
+                    trans.Commit();
+                    id = cmd.ExecuteNonQuery();
+                    trans.Dispose();
+                    connection.Dispose();
+                    connection.Close();
+
+                }
+                catch (Exception)
+                {
+                    /*Handle error*/
+                }
+            return id;
         }
     }
 }

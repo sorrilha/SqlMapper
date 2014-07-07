@@ -55,7 +55,6 @@
     <Compile Include="EDs\Category.cs" />
     <Compile Include="EDs\Customer.cs" />
     <Compile Include="EDs\Employee.cs" />
-    <Compile Include="EDs\IDEntity.cs" />
     <Compile Include="EDs\Order.cs" />
     <Compile Include="EDs\Product.cs" />
     <Compile Include="EDs\Supplier.cs" />

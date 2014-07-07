@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using SqlMapper.SQLConnection;
 
@@ -11,6 +12,7 @@ namespace SqlMapper.Framework.SQLConnectionMan
         protected SqlCommand _SqlCommand;
         protected SqlDataReader _reader;
         protected int _affectedRows;
+        protected object _id;
 
         protected ConnectionManager(SqlConnection sqlConnection, String connectionStr)
         {
@@ -19,9 +21,10 @@ namespace SqlMapper.Framework.SQLConnectionMan
             
         }
 
-        public abstract int ExecuteNonQuery(SqlCommand cmd);
+        public abstract int ExecuteNonQuery(string stmt, Dictionary<string, object> parameters);
 
-        public abstract SqlDataReader ExecuteReader(SqlCommand cmd);
+        public abstract SqlDataReader ExecuteReader(String stmt);
+        public abstract object ExecuteScalar(String stmt, Dictionary<string, object> parameters);
 
         public int GetAffectedRows()
         {
@@ -31,6 +34,11 @@ namespace SqlMapper.Framework.SQLConnectionMan
         public SqlDataReader GetReader()
         {
             return _reader;
+        }
+
+        public object getId()
+        {
+            return _id;
         }
 
     }
