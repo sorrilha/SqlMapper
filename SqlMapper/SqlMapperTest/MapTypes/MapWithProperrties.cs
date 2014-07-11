@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
 using SqlMapper.Framework.CustomAttributes;
-using System.Collections.Generic;
+using SqlMapper.Framework.MapTypes;
 
-namespace SqlMapper.Framework.MapTypes
+namespace SqlMapperTest.MapTypes
 {
     public class MapWithProperties : TypeMapers
     {

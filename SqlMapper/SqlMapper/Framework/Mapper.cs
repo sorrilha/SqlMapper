@@ -66,20 +66,22 @@ namespace SqlMapper.Framework
             bool isIdentity = _pk.isIdentity();
             var key = GetValue(val, pkName);
             object value = null;
+          
             foreach (KeyValuePair<string, object> dic in _mapOfObjects)
             {
                 String name = dic.Key;
-
-                if (_foreignToPrimary.ContainsKey(name))
+                
+                bool hasFk = _foreignToPrimary.ContainsKey(name);
+                if (hasFk)
                 {
+                    value = SetValue(val, dic.Key);
                     name = _foreignToPrimary[name];
-                    aux += name + " = @" + name + ", ";
-                    value = GetValue(val, name);
                     if (value == null)
                         value = DBNull.Value;
 
-
+                    aux += name + " = @" + name + ", ";
                     parameterDictionary.Add("@" + name, value);
+                    hasFk = false;
                 }
                 else if (!pkName.Equals(name))
                 {
@@ -112,7 +114,6 @@ namespace SqlMapper.Framework
             parameterDictionary = new Dictionary<string, object>();
             var key = GetValue(val, pkName);
             parameterDictionary.Add("@" + pkName, key);
-            //_command.Parameters.AddWithValue("@" + _pkName, key);
             _command.CommandText = "DELETE FROM " + _tableName + "  WHERE " + pkName + " = @" + pkName;
 
         }
@@ -125,6 +126,7 @@ namespace SqlMapper.Framework
 
         public void Insert_query(T val)
         {
+           
             parameterDictionary = new Dictionary<string, object>();
             String aux = "";
             String parameters = "";
@@ -136,19 +138,18 @@ namespace SqlMapper.Framework
             {
                 String name = dic.Key;
                 Object value = null;
-                if (_foreignToPrimary.ContainsKey(name))
+                bool hasFk = _foreignToPrimary.ContainsKey(name);
+                if (hasFk)
                 {
-                    //String nameOfKey = name;
+                   
+                    value = SetValue(val, dic.Key);
                     name = _foreignToPrimary[name];
-                    aux += name + ", ";
-                    IEntity t = _fkNames[name];
-                    
-                    value = t.getId();
                     if (value == null)
                         value = DBNull.Value;
                     parameters += " @" + name + ", ";
-
+                    aux += name + ", ";
                     parameterDictionary.Add("@" + name, value);
+                    hasFk = false;
                 }
                 else if (name.Equals(pkName))
                 {
@@ -158,8 +159,8 @@ namespace SqlMapper.Framework
                         value = GetValue(val, name);
                         if (value == null)
                             value = DBNull.Value;
+                       
                         parameters += " @" + name + ", ";
-
                         parameterDictionary.Add("@" + name, value);
                     }
                 }
@@ -174,13 +175,34 @@ namespace SqlMapper.Framework
                     parameterDictionary.Add("@" + name, value);
                 }
                
-                //_command.Parameters.AddWithValue("@" + name, value);
             }
             aux = aux.Remove(aux.Length - 2);
             parameters = parameters.Remove(parameters.Length - 2);
             _command.CommandText = "INSERT INTO " + _tableName + " ( " + aux + " ) Values (" + parameters + " )";
         }
 
+        private object SetValue(T val, string name)
+        {
+            IEntity iEntity = null;
+            MemberInfo[] myMember = val.GetType().GetMember(name);
+            if (myMember.Length < 1) return null;
+
+            switch (myMember[0].MemberType)
+            {
+                case MemberTypes.Field:
+                    FieldInfo f = val.GetType().GetField(name);
+                    iEntity = (IEntity)f.GetValue(val);
+                    break;
+                case MemberTypes.Property:
+                    PropertyInfo p = val.GetType().GetProperty(name);
+                    iEntity = (IEntity)p.GetValue(val);
+                    break;
+            }
+            if (iEntity != null) return iEntity.getId();
+            return null;
+        }
+
+       
         private Object GetValue(object val, string name)
         {
 

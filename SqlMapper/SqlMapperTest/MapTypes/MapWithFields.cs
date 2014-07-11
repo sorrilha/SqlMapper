@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Data.SqlClient;
 using System.Reflection;
+using SqlMapper.Framework.MapTypes;
 
-namespace SqlMapper.Framework.MapTypes
+namespace SqlMapperTest.MapTypes
 {
     public class MapWithFields : TypeMapers
     {
@@ -19,6 +19,6 @@ namespace SqlMapper.Framework.MapTypes
             }
         }
 
-        }
+    }
     
 }

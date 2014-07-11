@@ -52,12 +52,16 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ConnectionManagers\PersistentConnection.cs" />
+    <Compile Include="ConnectionManagers\SingleConnection.cs" />
     <Compile Include="EDs\Category.cs" />
     <Compile Include="EDs\Customer.cs" />
     <Compile Include="EDs\Employee.cs" />
     <Compile Include="EDs\Order.cs" />
     <Compile Include="EDs\Product.cs" />
     <Compile Include="EDs\Supplier.cs" />
+    <Compile Include="MapTypes\MapWithFields.cs" />
+    <Compile Include="MapTypes\MapWithProperrties.cs" />
     <Compile Include="TestCustomers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestProducts.cs" />
@@ -77,6 +81,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

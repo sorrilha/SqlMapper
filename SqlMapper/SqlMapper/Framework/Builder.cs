@@ -56,11 +56,11 @@ namespace SqlMapper.Framework
                     if (fk != null)
                     {
                         IEntity type = fk.getFkType();
-                        
-                        listOfFk.Add(fk.getFkPkName(), fk.getFkType());
+
+                        listOfFk.Add(fk.getFkPkName(), type);
                         MethodInfo meth = GetType().GetMethod("Build");
                         MethodInfo generic = meth.MakeGenericMethod(type.GetType());
-                        IDataMapper invoke = (IDataMapper) generic.Invoke(this.GetType(), null);
+                        IDataMapper invoke = (IDataMapper) generic.Invoke(this, null);
                         dataMappers.Add(type.GetType(), invoke);
                     }
 

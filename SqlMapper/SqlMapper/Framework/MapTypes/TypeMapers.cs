@@ -22,23 +22,6 @@ namespace SqlMapper.Framework.MapTypes
 
             return foreignToPrimary;
         }
-
-        /* protected String[] _paramsName ;
-        protected object[] _params;
-        protected 
-       
-        public String[] getParamsNames()
-        {
-
-            return _paramsName;
-        }
-
-        public object[] getParams()
-        {
-            
-            return _params;
-        }*/
-
     }
 
 }

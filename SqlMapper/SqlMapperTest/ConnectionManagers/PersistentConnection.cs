@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using SqlMapper.Framework.SQLConnectionMan;
 
-
-namespace SqlMapper.Framework.SQLConnectionMan
+namespace SqlMapperTest.ConnectionManagers
 {
     public class PersistentConnection : ConnectionManager
     {
@@ -44,8 +44,9 @@ namespace SqlMapper.Framework.SQLConnectionMan
             return _reader;
         }
 
-        public override object ExecuteScalar(string stmt, Dictionary<string, object> parameters)
+        public override int ExecuteScalar(string stmt, Dictionary<string, object> parameters)
         {
+            int newID = 0;
             SqlCommand cmd = new SqlCommand(stmt);
 
             foreach (KeyValuePair<string, object> p in parameters)
@@ -56,8 +57,8 @@ namespace SqlMapper.Framework.SQLConnectionMan
             SqlConnection connection = new SqlConnection(_connectionStr);
             connection.Open();
             cmd.Connection = connection;
-            var id = cmd.ExecuteScalar();
-            return id;
+            newID = Convert.ToInt32(cmd.ExecuteScalar());
+            return newID;
         }
     }
 }

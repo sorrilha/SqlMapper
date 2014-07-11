@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using SqlMapper.SQLConnection;
 
 namespace SqlMapper.Framework.SQLConnectionMan
 {
     public abstract class ConnectionManager
     {
-        protected String _connectionStr;
+        public String _connectionStr;
         public SqlConnection _sqlConnection;
         protected SqlCommand _SqlCommand;
-        protected SqlDataReader _reader;
-        protected int _affectedRows;
-        protected object _id;
+        public SqlDataReader _reader;
+        public int _affectedRows;
+        protected int _id;
 
-        protected ConnectionManager(SqlConnection sqlConnection, String connectionStr)
+        public ConnectionManager(SqlConnection sqlConnection, String connectionStr)
         {
             _connectionStr = connectionStr;
             _sqlConnection = sqlConnection;
@@ -24,7 +23,7 @@ namespace SqlMapper.Framework.SQLConnectionMan
         public abstract int ExecuteNonQuery(string stmt, Dictionary<string, object> parameters);
 
         public abstract SqlDataReader ExecuteReader(String stmt);
-        public abstract object ExecuteScalar(String stmt, Dictionary<string, object> parameters);
+        public abstract int ExecuteScalar(String stmt, Dictionary<string, object> parameters);
 
         public int GetAffectedRows()
         {
@@ -36,7 +35,7 @@ namespace SqlMapper.Framework.SQLConnectionMan
             return _reader;
         }
 
-        public object getId()
+        public int GetId()
         {
             return _id;
         }

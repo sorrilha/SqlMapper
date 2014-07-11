@@ -7,8 +7,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SqlMapper.Framework;
 using SqlMapper.Framework.MapTypes;
 using SqlMapper.Framework.SQLConnectionMan;
+using SqlMapperTest.ConnectionManagers;
 using SqlMapperTest.EDs;
 using SqlMapperTest.Framework;
+using SqlMapperTest.MapTypes;
 
 
 namespace SqlMapperTest
@@ -26,10 +28,11 @@ namespace SqlMapperTest
         private SqlCommand command;
         [TestInitialize]
         [TestMethod]
+        [Priority(0)]
         public void AssertDataMapper()
         {
             mapType = new MapWithFields(typeof(Customer));
-            connMan = new PersistentConnection(new SqlConnection());
+            connMan = new SingleConnection(new SqlConnection());
             Dictionary<String, object> mapOfObjects = mapType.getParams();
             Builder b = new Builder(connMan, mapType);//mapOfObjects);
             custMapper = b.Build<Customer>();
@@ -38,6 +41,7 @@ namespace SqlMapperTest
         }
 
         [TestMethod]
+        [Priority(1)]
         public void CustomersGetAll()
         {
             int expected=0;
@@ -58,6 +62,7 @@ namespace SqlMapperTest
 
        
         [TestMethod]
+        [Priority(2)]
         public void CustomersInsert()
         {
             Customer cust1 = new Customer();
@@ -69,6 +74,7 @@ namespace SqlMapperTest
         }
 
         [TestMethod]
+        [Priority(3)]
         public void CustomersUpdate()
         {
             Customer cust = new Customer();
@@ -79,6 +85,7 @@ namespace SqlMapperTest
             Assert.IsTrue(real == 1);
         }
         [TestMethod]
+        [Priority(4)]
         public void CustomersDelete()
         {
             Customer cust1 = new Customer();
