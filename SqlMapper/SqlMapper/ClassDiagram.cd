@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="FullSignature">
+  <Class Name="SqlMapper.Framework.Builder">
+    <Position X="1" Y="0.75" Width="4.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAIQAAAAAAAogAAAAAAAABAAAAA=</HashCode>
+      <FileName>Framework\Builder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SqlMapper.Framework.Mapper&lt;T&gt;" BaseTypeListCollapsed="true">
+    <Position X="1" Y="14.5" Width="15.25" />
+    <TypeIdentifier>
+      <HashCode>CAUCEECAIAAAAgAAAQKAAAAIAgFAAAAAAggAABAAAoE=</HashCode>
+      <FileName>Framework\Mapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.231" />
+  </Class>
+  <Class Name="SqlMapper.Framework.SqlEnumerable&lt;T&gt;" BaseTypeListCollapsed="true">
+    <Position X="4.75" Y="21.75" Width="11.75" />
+    <TypeIdentifier>
+      <HashCode>ABEAAACAAAACABAAAACAAAAAAgFAAAAEAAAAABAAAAA=</HashCode>
+      <FileName>Framework\SqlEnumerable.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="SqlMapper.Framework.CustomAttributes.Fk">
+    <Position X="13.25" Y="9" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAJAAAAAAAAAAAAQAQAIAAACgAAIA=</HashCode>
+      <FileName>Framework\CustomAttributes\Fk.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SqlMapper.Framework.CustomAttributes.Pk">
+    <Position X="10.5" Y="9" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAgAIAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Framework\CustomAttributes\Pk.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SqlMapper.Framework.CustomAttributes.Table">
+    <Position X="8" Y="9" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAIA=</HashCode>
+      <FileName>Framework\CustomAttributes\Table.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SqlMapper.Framework.MapTypes.TypeMapers">
+    <Position X="6.75" Y="4.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAABAAAAAAAAAAAAAIAAAAIAAAA=</HashCode>
+      <FileName>Framework\MapTypes\TypeMapers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SqlMapper.Framework.SQLConnectionMan.ConnectionManager">
+    <Position X="1" Y="4.25" Width="4.75" />
+    <TypeIdentifier>
+      <HashCode>gAEAAAAAAAAAACAAAQBAAEAAAAAAABCBQAAAAAIAAAA=</HashCode>
+      <FileName>Framework\SQLConnectionMan\ConnectionManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Attribute" Collapsed="true">
+    <Position X="10.5" Y="7" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="SqlMapper.Framework.IDataMapper&lt;T&gt;">
+    <Position X="1.25" Y="12" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAEAAAAAAAAAAAAAAAAAAAAEAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Framework\IDataMapper.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SqlMapper.Framework.IDataMapper">
+    <Position X="1.25" Y="10" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAEAAAAAAAAAAAAAAAAAAAAEAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Framework\IDataMapper.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SqlMapper.Framework.IEntity">
+    <Position X="4" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Framework\IEntity.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SqlMapper.Framework.ISqlEnumerable&lt;T&gt;">
+    <Position X="1" Y="23" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Framework\ISqlEnumerable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SqlMapper.Framework.ISqlEnumerable">
+    <Position X="1" Y="21.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Framework\ISqlEnumerable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

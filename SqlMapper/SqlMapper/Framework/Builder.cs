@@ -16,7 +16,6 @@ namespace SqlMapper.Framework
         private ConnectionManager _connectionManager;
         private readonly TypeMapers _mapTypes;
         private SqlCommand _command;
-       // List<IDataMapper> dataMappers = new List<IDataMapper>();
         Dictionary<Type, IDataMapper>dataMappers = new Dictionary<Type,IDataMapper>();
         private Dictionary<String, String> _foreignToPrimary;
         private Dictionary<String, IEntity> listOfFk = new Dictionary<String, IEntity>();
@@ -42,8 +41,7 @@ namespace SqlMapper.Framework
             ConstructorInfo ctor = _mapTypes.GetType().GetConstructor(new Type[] { typeof(Type) });
             object o = ctor.Invoke(new object[] { typeof(T) });
             TypeMapers tm = (TypeMapers) o;
-            
-
+           
             
             foreach (KeyValuePair<string, object> dic in tm.getParams())
             {
